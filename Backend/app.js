@@ -30,16 +30,8 @@ route.get('/products/:id', (req, res) => {
 // POST /api/products
 
 route.post('/products', (req, res) => {
-	const {
-		id,
-		nombre,
-		referencia,
-		precio,
-		peso,
-		categoria,
-		stock,
-		fechaCreacion,
-	} = req.body;
+	const { nombre, referencia, precio, peso, categoria, stock, fechaCreacion } =
+		req.body;
 
 	if (
 		!nombre ||

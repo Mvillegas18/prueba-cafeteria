@@ -20,6 +20,10 @@ route.get('/products/:id', (req, res) => {
 	const { id } = req.params;
 	const product = products.find((product) => product.id === Number(id));
 
+	if (product === undefined) {
+		res.status(404).json({ message: 'Producto no encontrado' });
+	}
+
 	res.json(product);
 });
 
@@ -38,7 +42,6 @@ route.post('/products', (req, res) => {
 	} = req.body;
 
 	if (
-		!id ||
 		!nombre ||
 		!referencia ||
 		!precio ||
@@ -53,14 +56,14 @@ route.post('/products', (req, res) => {
 	}
 
 	const newProduct = {
-		id,
+		id: products.length + 1,
 		nombre,
 		referencia,
 		precio,
 		peso,
 		categoria,
 		stock,
-		fechaCreacion,
+		fechaCreacion: new Date().toISOString(),
 	};
 
 	products.push(newProduct);
@@ -70,6 +73,47 @@ route.post('/products', (req, res) => {
 
 // PUT /api/products/:id
 
-route.put('/products', (req, res) => {
-	res.status(200).json('Producto creado con exito!!');
+route.put('/products/:id', (req, res) => {
+	const { id } = req.params;
+
+	const { nombre, referencia, precio, peso, categoria, stock } = req.body;
+
+	const productToUpdate = products.findIndex(
+		(product) => product.id === Number(id)
+	);
+
+	if (productToUpdate === -1) {
+		return res.status(404).json({ message: 'Producto no encontrado' });
+	}
+
+	const updatedProduct = {
+		...products[productToUpdate],
+		...(nombre && { nombre }),
+		...(referencia && { referencia }),
+		...(precio && { precio }),
+		...(peso && { peso }),
+		...(categoria && { categoria }),
+		...(stock && { stock }),
+	};
+
+	products[productToUpdate] = updatedProduct;
+
+	res.status(200).json(updatedProduct);
+});
+
+// DELETE /api/products/:id
+
+route.delete('/products/:id', (req, res) => {
+	const { id } = req.params;
+
+	const productToEliminated = products.findIndex(
+		(product) => product.id === Number(id)
+	);
+
+	if (productToEliminated === -1) {
+		res.status(400).json({ message: 'El producto no existe' });
+	} else {
+		products.splice(productToEliminated, 1);
+		res.status(200).json({ message: 'Producto eliminado' });
+	}
 });

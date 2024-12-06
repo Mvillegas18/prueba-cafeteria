@@ -1,3 +1,3 @@
-export const SaleList = () => {
+export const SaleView = () => {
 	return <div>SaleList</div>;
 };

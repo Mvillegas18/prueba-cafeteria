@@ -9,7 +9,7 @@ app.use(express.json());
 app.use('/api/products', route);
 app.use('/api/sales', routeSales);
 
-const PORT = process.env.PORT ?? 3000;
+const PORT = process.env.PORT ?? 5173;
 app.listen(PORT, () => {
 	console.log(`Servidor en: http://localhost:${PORT}`);
 });

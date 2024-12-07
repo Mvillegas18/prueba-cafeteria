@@ -53,5 +53,5 @@ routeSales.post('/', (req, res) => {
 
 	sales.push(venta);
 
-	return res.status(201).json({ message: 'Venta realizada con exito', venta });
+	return res.status(201).json(venta);
 });

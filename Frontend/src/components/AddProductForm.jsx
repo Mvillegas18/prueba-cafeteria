@@ -1,8 +1,11 @@
 import { useState } from 'react';
 
 const defaultProduct = {
-	name: '',
-	price: 0,
+	nombre: '',
+	referencia: '',
+	categoria: '',
+	precio: 0,
+	peso: 0,
 	stock: 0,
 };
 
@@ -22,10 +25,6 @@ export const AddProductForm = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
-		if (!newProduct.name || newProduct.price <= 0 || newProduct.stock <= 0) {
-			alert('Completa los campos correctamente');
-		}
-
 		try {
 			const response = await fetch('http://localhost:3000/api/products', {
 				method: 'POST',
@@ -38,7 +37,6 @@ export const AddProductForm = () => {
 			if (!response.ok) {
 				throw new Error('Error al crear el producto');
 			}
-
 			setNewProduct(defaultProduct);
 		} catch (error) {
 			console.log(error.message);
@@ -51,15 +49,15 @@ export const AddProductForm = () => {
 			<form onSubmit={handleSubmit}>
 				<div className='mb-4'>
 					<label
-						htmlFor='name'
+						htmlFor='nombre'
 						className='block text-sm font-medium text-gray-700'>
 						Nombre del Producto
 					</label>
 					<input
 						type='text'
-						id='name'
-						name='name'
-						value={newProduct.name}
+						id='nombre'
+						name='nombre'
+						value={newProduct.nombre}
 						onChange={handleChange}
 						className='w-full p-2 border border-gray-300 rounded-md'
 						required
@@ -68,19 +66,69 @@ export const AddProductForm = () => {
 
 				<div className='mb-4'>
 					<label
-						htmlFor='price'
+						htmlFor='referencia'
+						className='block text-sm font-medium text-gray-700'>
+						Referencia
+					</label>
+					<input
+						type='text'
+						id='referencia'
+						name='referencia'
+						value={newProduct.referencia}
+						onChange={handleChange}
+						className='w-full p-2 border border-gray-300 rounded-md'
+						required
+					/>
+				</div>
+
+				<div className='mb-4'>
+					<label
+						htmlFor='categoria'
+						className='block text-sm font-medium text-gray-700'>
+						Categoria
+					</label>
+					<input
+						type='text'
+						id='categoria'
+						name='categoria'
+						value={newProduct.categoria}
+						onChange={handleChange}
+						className='w-full p-2 border border-gray-300 rounded-md'
+						required
+					/>
+				</div>
+
+				<div className='mb-4'>
+					<label
+						htmlFor='precio'
 						className='block text-sm font-medium text-gray-700'>
 						Precio
 					</label>
 					<input
 						type='number'
-						id='price'
-						name='price'
-						value={newProduct.price}
+						id='precio'
+						name='precio'
+						value={newProduct.precio}
 						onChange={handleChange}
 						className='w-full p-2 border border-gray-300 rounded-md'
 						required
-						min='0'
+					/>
+				</div>
+
+				<div className='mb-4'>
+					<label
+						htmlFor='peso'
+						className='block text-sm font-medium text-gray-700'>
+						Peso
+					</label>
+					<input
+						type='number'
+						id='peso'
+						name='peso'
+						value={newProduct.peso}
+						onChange={handleChange}
+						className='w-full p-2 border border-gray-300 rounded-md'
+						required
 					/>
 				</div>
 
@@ -98,7 +146,6 @@ export const AddProductForm = () => {
 						onChange={handleChange}
 						className='w-full p-2 border border-gray-300 rounded-md'
 						required
-						min='1'
 					/>
 				</div>
 

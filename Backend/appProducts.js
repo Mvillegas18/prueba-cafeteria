@@ -30,18 +30,9 @@ route.get('/:id', (req, res) => {
 // POST /api/products
 
 route.post('/', (req, res) => {
-	const { nombre, referencia, precio, peso, categoria, stock, fechaCreacion } =
-		req.body;
+	const { nombre, referencia, precio, peso, categoria, stock } = req.body;
 
-	if (
-		!nombre ||
-		!referencia ||
-		!precio ||
-		!peso ||
-		!categoria ||
-		!stock ||
-		!fechaCreacion
-	) {
+	if (!nombre || !referencia || !precio || !peso || !categoria || !stock) {
 		return res
 			.status(400)
 			.json({ message: 'Todos los campos son obligatorios' });
